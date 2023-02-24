@@ -1,10 +1,25 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**9)
 
-def divide(arr, N):
+N = int(input())
 
-    global a1, a2, a3
+arr = [input().split() for _ in range(N)]
+a1, a2, a3 = 0, 0, 0
+stack = []
+stack.append((arr, N))
+while stack:
+    arr, N = stack.pop()
+    
+    if N == 1:
+        if arr[0][0] == '0':
+            a1 += 1
+            continue
+        elif arr[0][0] == '1':
+            a2 += 1
+            continue
+        else:
+            a3 += 1
+            continue
 
     cnt_0 = 0
     cnt_1 = 0
@@ -17,13 +32,13 @@ def divide(arr, N):
 
     if cnt_0 == N*N:
         a1 += 1
-        return
+        continue
     elif cnt_1 == N*N:
         a2 += 1
-        return
+        continue
     elif cnt_2 == N*N:
         a3 += 1
-        return
+        continue
     
     k = N//3
 
@@ -33,13 +48,8 @@ def divide(arr, N):
             for a in range(k):
                 for b in range(k):
                     new_arr[a][b] = arr[i+a][j+b]
-            divide(new_arr, k)
+            stack.append((new_arr, k))
 
-N = int(input())
-
-arr = [input().split() for _ in range(N)]
-a1, a2, a3 = 0, 0, 0
-divide(arr, N)
 print(a3)
 print(a1)
 print(a2)
